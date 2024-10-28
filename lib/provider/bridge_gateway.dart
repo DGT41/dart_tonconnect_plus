@@ -76,6 +76,8 @@ class BridgeGateway {
     bridgeUrl += '&to=$receiverPublicKey&ttl=$ttlValue&topic=$topic';
 
     final xhr = HttpRequest();
+    logger.d(bridgeUrl);
+    logger.d(request);
     xhr.open('POST', bridgeUrl);
     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     xhr.send(request);
