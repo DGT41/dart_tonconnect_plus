@@ -193,11 +193,6 @@ class BridgeProvider extends BaseProvider {
           ? connection['last_wallet_event_id']
           : 0;
 
-      if (lastId == 0) {
-        //
-        logger.i('transaction failed');
-        throw UserRejectsError('The transaction was failed or cancelled');
-      }
       if (lastId != null && id <= lastId) {
         logger.e(
             'Received event id (=$id) must be greater than stored last wallet event id (=$lastId)');
