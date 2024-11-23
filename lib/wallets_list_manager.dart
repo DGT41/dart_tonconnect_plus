@@ -1,7 +1,10 @@
 import 'dart:convert';
+
 import 'package:darttonconnect/exceptions.dart';
 import 'package:darttonconnect/models/wallet_app.dart';
 import 'package:http/http.dart' as http;
+
+import 'logger.dart';
 
 const fallbackWalletsList = [
   WalletApp(
@@ -47,7 +50,9 @@ class WalletsListManager {
       try {
         final response = await http.get(Uri.parse(_walletsListSource));
         if (response.statusCode == 200) {
-          final responseBody = jsonDecode(response.body);
+          logger.d("code is ${response.statusCode}");
+          final responseBody = json.decode(utf8.decode(response.bodyBytes));
+          logger.d("body is $responseBody");
           if (responseBody is List) {
             walletsList =
                 responseBody.map((e) => WalletApp.fromMap(e)).toList();
@@ -59,6 +64,7 @@ class WalletsListManager {
           throw FetchWalletsError('Failed to fetch wallets list.');
         }
       } catch (e) {
+        logger.d(e);
         walletsList = fallbackWalletsList;
       }
 
