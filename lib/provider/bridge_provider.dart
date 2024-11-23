@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:darttonconnect/crypto/session_crypto.dart';
+import 'package:darttonconnect/exceptions.dart';
+import 'package:darttonconnect/logger.dart';
 import 'package:darttonconnect/models/wallet_app.dart';
 import 'package:darttonconnect/provider/bridge_gateway.dart';
 import 'package:darttonconnect/provider/bridge_session.dart';
 import 'package:darttonconnect/provider/provider.dart';
-
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/logger.dart';
 import 'package:darttonconnect/storage/interface.dart';
 
 class BridgeProvider extends BaseProvider {
@@ -38,8 +37,9 @@ class BridgeProvider extends BaseProvider {
     final sessionCrypto = SessionCrypto();
 
     String bridgeUrl = _wallet?.bridgeUrl ?? '';
-    String universalUrl = _wallet?.universalUrl ?? BridgeProvider.standartUniversalUrl;
-    
+    String universalUrl =
+        _wallet?.universalUrl ?? BridgeProvider.standartUniversalUrl;
+
     _gateway = BridgeGateway(
       _storage,
       bridgeUrl,
@@ -193,6 +193,11 @@ class BridgeProvider extends BaseProvider {
           ? connection['last_wallet_event_id']
           : 0;
 
+      if (lastId == 0) {
+        //
+        logger.i('transaction failed');
+        throw UserRejectsError('The transaction was failed or cancelled');
+      }
       if (lastId != null && id <= lastId) {
         logger.e(
             'Received event id (=$id) must be greater than stored last wallet event id (=$lastId)');
