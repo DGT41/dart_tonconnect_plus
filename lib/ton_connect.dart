@@ -33,6 +33,10 @@ class TonConnectManager {
         walletsListCacheTtl: walletsListCacheTtl);
     messagesStream.asBroadcastStream();
     _connector.onStatusChange((status) {
+      if (status is Map<String, dynamic>) {
+        broadcastMessage(TonPaymentStatus.Transaction_rejected);
+        return;
+      }
       broadcastMessage(_connector.connected
           ? TonPaymentStatus.Connected
           : TonPaymentStatus.Disconnected);
@@ -311,6 +315,8 @@ class _TonConnect {
       _onWalletConnectError(data['payload']);
     } else if (data['event'] == 'disconnect') {
       _onWalletDisconnected();
+    } else if (data['error'] != null) {
+      _onWalletTransactionFailed(data['error']);
     }
   }
 
@@ -338,6 +344,13 @@ class _TonConnect {
     wallet = null;
     for (var listener in _statusChangeSubscriptions) {
       listener(null);
+    }
+  }
+
+  void _onWalletTransactionFailed(Map<String, dynamic> payload) {
+    logger.d('transaction error $payload');
+    for (var listener in _statusChangeSubscriptions) {
+      listener(payload);
     }
   }
 

@@ -170,7 +170,12 @@ class BridgeProvider extends BaseProvider {
     final walletMessage = jsonDecode(decryptMessage) as Map<String, dynamic>;
 
     logger.d('Wallet message received: $walletMessage');
-
+    if (walletMessage['error'] != null) {
+      for (final listener in _listeners) {
+        listener(walletMessage);
+      }
+      return;
+    }
     if (!walletMessage.containsKey('event')) {
       if (walletMessage.containsKey('id')) {
         final id = walletMessage['id'].toString();
