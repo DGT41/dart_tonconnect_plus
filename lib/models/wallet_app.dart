@@ -14,18 +14,6 @@ class WalletApp {
   });
 
   factory WalletApp.fromMap(Map<String, dynamic> json) {
-    /*  String bridgeUrl = '';
-    if (json.containsKey('bridge_url')) {
-      bridgeUrl = json['bridge_url'].toString();
-    } else if (json.containsKey('bridge')) {
-      var list = json['bridge'] as List<dynamic>;
-      var item = list.firstWhere((element) => element['type'] == 'sse',
-          orElse: () => {'url': ''});
-      if (item != null) {
-        bridgeUrl = item['url'] as String;
-      }
-    }*/
-
     String bridgeUrl = json.containsKey('bridge_url')
         ? json['bridge_url'].toString()
         : (json.containsKey('bridge')
