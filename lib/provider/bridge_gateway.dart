@@ -62,7 +62,7 @@ class BridgeGateway {
       } on ClientException {
         logger.e('Bridge error -> ClientConnectionError');
       } catch (e) {
-        logger.e('Bridge error -> Unknown');
+        logger.e('Bridge error -> Unknown $e');
       }
     });
   }

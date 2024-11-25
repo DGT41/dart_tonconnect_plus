@@ -9,6 +9,7 @@ import 'package:darttonconnect/provider/bridge_gateway.dart';
 import 'package:darttonconnect/provider/bridge_session.dart';
 import 'package:darttonconnect/provider/provider.dart';
 import 'package:darttonconnect/storage/interface.dart';
+import 'package:flutter/foundation.dart';
 
 class BridgeProvider extends BaseProvider {
   static const int disconnectTimeout = 600;
@@ -170,7 +171,14 @@ class BridgeProvider extends BaseProvider {
     final walletMessage = jsonDecode(decryptMessage) as Map<String, dynamic>;
 
     logger.d('Wallet message received: $walletMessage');
-    if (walletMessage['error'] != null) {
+    if (walletMessage.containsKey('error')) {
+      for (final listener in _listeners) {
+        listener(walletMessage);
+      }
+      return;
+    }
+    if (walletMessage.containsKey('result')){
+      logger.d("bridge got result: $walletMessage");
       for (final listener in _listeners) {
         listener(walletMessage);
       }

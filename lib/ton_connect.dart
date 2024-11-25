@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+
 
 import 'package:darttonconnect/exceptions.dart';
 import 'package:darttonconnect/logger.dart';
@@ -10,125 +10,11 @@ import 'package:darttonconnect/provider/bridge_provider.dart';
 import 'package:darttonconnect/storage/default_storage.dart';
 import 'package:darttonconnect/storage/interface.dart';
 import 'package:darttonconnect/wallets_list_manager.dart';
-import 'package:tonutils/dataformat.dart';
 
-enum TonPaymentStatus {
-  Wallets_loaded,
-  UniversalLink_generated,
-  Connected,
-  Disconnected,
-  Transaction_pending,
-  Transaction_sent,
-  Transaction_rejected,
-}
 
-class TonConnectManager {
-  TonConnectManager(String manifestUrl,
-      {IStorage? customStorage,
-      String? walletsListSource,
-      int? walletsListCacheTtl}) {
-    _connector = _TonConnect(manifestUrl,
-        customStorage: customStorage,
-        walletsListSource: walletsListSource,
-        walletsListCacheTtl: walletsListCacheTtl);
-    messagesStream.asBroadcastStream();
-    _connector.onStatusChange((status) {
-      if (status is Map<String, dynamic>) {
-        broadcastMessage(TonPaymentStatus.Transaction_rejected);
-        return;
-      }
-      broadcastMessage(_connector.connected
-          ? TonPaymentStatus.Connected
-          : TonPaymentStatus.Disconnected);
-    });
-    _connector.restoreConnection();
-    loadWallets();
-  }
 
-  TonPaymentStatus status = TonPaymentStatus.Disconnected;
-
-  bool get isConnected => _connector.connected;
-
-  final StreamController<TonPaymentStatus> _clientsStreamController =
-      StreamController<TonPaymentStatus>.broadcast();
-
-  late _TonConnect _connector;
-
-  Stream<TonPaymentStatus> get messagesStream =>
-      _clientsStreamController.stream;
-
-  static List<WalletApp> wallets = [];
-
-  static String? currentUniversalLink;
-
-  void broadcastMessage(TonPaymentStatus updatedStatus) {
-    status = updatedStatus;
-    _clientsStreamController.add(updatedStatus);
-  }
-
-  void loadWallets() async {
-    wallets = await _connector.getWallets();
-    broadcastMessage(TonPaymentStatus.Wallets_loaded);
-  }
-
-  /// Send transaction with specified data.
-  void sendTrx(
-      {required String address,
-      required int amount,
-      String? comment,
-      int? validUntill}) async {
-    validUntill ??= DateTime.now().millisecondsSinceEpoch ~/ 1000 + 10000;
-    if (!_connector.connected) {
-      broadcastMessage(TonPaymentStatus.Disconnected);
-    } else {
-      Map<String, Object> message = {
-        "address": address,
-        "amount": amount.toString(),
-      };
-      if (comment != null) {
-        var payload = ScString(comment);
-        var cell = beginCell()
-            .storeUint(BigInt.zero, 32)
-            .storeStringTail(payload.value)
-            .endCell();
-        final base64Str = base64.encode(cell.toBoc());
-        message['payload'] = base64Str;
-      }
-      var transaction = {
-        "validUntil": validUntill,
-        "messages": [message]
-      };
-      sendTrxRaw(transaction: transaction);
-    }
-  }
-
-  sendTrxRaw({required Map<String, dynamic> transaction}) async {
-    try {
-      broadcastMessage(TonPaymentStatus.Transaction_pending);
-      await _connector.sendTransaction(transaction);
-      broadcastMessage(TonPaymentStatus.Transaction_sent);
-    } catch (e) {
-      if (e is UserRejectsError) {
-        broadcastMessage(TonPaymentStatus.Transaction_rejected);
-        logger.d(
-            'You rejected the transaction. Please confirm it to send to the blockchain');
-      } else {
-        logger.d('Unknown error happened $e');
-      }
-    }
-  }
-
-  void generateWalletLink(WalletApp wallet) async {
-    if (_connector.connected) {
-      _connector.disconnect();
-    }
-    String universalLink = await _connector.connect(wallet);
-    TonConnectManager.currentUniversalLink = universalLink;
-    broadcastMessage(TonPaymentStatus.UniversalLink_generated);
-  }
-}
-
-class _TonConnect {
+@Deprecated('Use `TonConnectManager` instead')
+class TonConnect {
   WalletsListManager _walletsList = WalletsListManager();
 
   BridgeProvider? provider;
@@ -146,7 +32,7 @@ class _TonConnect {
   /// Current connected account or None if no account is connected.
   dynamic get account => connected ? wallet!.account : null;
 
-  _TonConnect(this._manifestUrl,
+  TonConnect(this._manifestUrl,
       {IStorage? customStorage,
       String? walletsListSource,
       int? walletsListCacheTtl}) {
@@ -310,17 +196,21 @@ class _TonConnect {
 
   void _walletEventsListener(Map<String, dynamic> data) {
     if (data['event'] == 'connect') {
-      _onWalletConnected(data['payload']);
-    } else if (data['event'] == 'connect_error') {
+      _onWalletStatusChanged(data['payload']);
+    }  else if (data['result'] != null) {
+      logger.d("status changed with result $data");
+      _onWalletTransactionStatusChanged(data);
+    }
+    else if (data['event'] == 'connect_error') {
       _onWalletConnectError(data['payload']);
     } else if (data['event'] == 'disconnect') {
       _onWalletDisconnected();
     } else if (data['error'] != null) {
-      _onWalletTransactionFailed(data['error']);
+      _onWalletTransactionStatusChanged(data);
     }
   }
 
-  void _onWalletConnected(dynamic payload) {
+  void _onWalletStatusChanged(dynamic payload) {
     wallet = ConnectEventParser.parseResponse(payload);
     for (var listener in _statusChangeSubscriptions) {
       listener(wallet);
@@ -347,7 +237,7 @@ class _TonConnect {
     }
   }
 
-  void _onWalletTransactionFailed(Map<String, dynamic> payload) {
+  void _onWalletTransactionStatusChanged(Map<String, dynamic> payload) {
     logger.d('transaction error $payload');
     for (var listener in _statusChangeSubscriptions) {
       listener(payload);
