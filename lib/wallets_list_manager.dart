@@ -23,7 +23,7 @@ const fallbackWalletsList = [
 
 class WalletsListManager {
   String _walletsListSource =
-      'https://raw.githubusercontent.com/ton-blockchain/wallets-list/main/wallets.json';
+      'https://raw.githubusercontent.com/ton-blockchain/wallets-list/main/wallets-v2.json';
   final int? _cacheTtl;
 
   dynamic _dynamicWalletsListCache;
