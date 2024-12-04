@@ -50,9 +50,7 @@ class WalletsListManager {
       try {
         final response = await http.get(Uri.parse(_walletsListSource));
         if (response.statusCode == 200) {
-          logger.d("code is ${response.statusCode}");
           final responseBody = json.decode(utf8.decode(response.bodyBytes));
-          logger.d("body is $responseBody");
           if (responseBody is List) {
             walletsList =
                 responseBody.map((e) => WalletApp.fromMap(e)).toList();

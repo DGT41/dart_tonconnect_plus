@@ -31,9 +31,7 @@ class TonConnectManager {
         customStorage: customStorage,
         walletsListSource: walletsListSource,
         walletsListCacheTtl: walletsListCacheTtl);
-    //messagesStream.asBroadcastStream();
     connector.onStatusChange((status) {
-      debugPrint("connector got status $status");
       if (status is Map<String, dynamic>) {
         if (status.containsKey('error')) {
           broadcastMessage(TonPaymentStatus.Transaction_error_or_rejected);
@@ -68,9 +66,11 @@ class TonConnectManager {
 
   static List<WalletApp> wallets = [];
 
-  static String? currentUniversalLink;
+  String? walletConnectionLink;
 
-  WalletInfo? get currentWallet => connector.wallet;
+  WalletInfo? get connectedWalletInfo => connector.wallet;
+
+  WalletApp? selectedWallet;
 
   void broadcastMessage(TonPaymentStatus updatedStatus) {
     status = updatedStatus;
@@ -133,7 +133,8 @@ class TonConnectManager {
       connector.disconnect();
     }
     String universalLink = await connector.connect(wallet);
-    TonConnectManager.currentUniversalLink = universalLink;
+    walletConnectionLink = universalLink;
+    selectedWallet = wallet;
     broadcastMessage(TonPaymentStatus.UniversalLink_generated);
   }
 }
