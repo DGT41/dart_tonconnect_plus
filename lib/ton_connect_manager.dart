@@ -5,6 +5,7 @@ import 'package:darttonconnect/parsers/connect_event.dart';
 import 'package:darttonconnect/storage/interface.dart';
 import 'package:darttonconnect/ton_connect.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'package:tonutils/dataformat.dart';
 
 import 'exceptions.dart';
@@ -22,11 +23,12 @@ enum TonPaymentStatus {
 }
 
 class TonConnectManager {
-
+  static Level? logLevel;
   TonConnectManager(String manifestUrl,
       {IStorage? customStorage,
         String? walletsListSource,
-        int? walletsListCacheTtl}) {
+        int? walletsListCacheTtl, Level? logLevel = Level.nothing}) {
+    TonConnectManager.logLevel = logLevel;
     connector = TonConnect(manifestUrl,
         customStorage: customStorage,
         walletsListSource: walletsListSource,
