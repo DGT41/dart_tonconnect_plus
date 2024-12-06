@@ -58,31 +58,31 @@ Subscribe to TON events stream messages
 
 Next events may be in the stream:
 
-#### TonPaymentStatus.Wallets_loaded
+`TonPaymentStatus.Wallets_loaded`
 
 `TonConnectManager` loaded supported TON wallets list. Now you are able to offer them to connect.
 
-#### TonPaymentStatus.UniversalLink_generated
+`TonPaymentStatus.UniversalLink_generated`
 
 User picked up specific wallet. Link for connection is generated.
 
-#### TonPaymentStatus.Connected
+`TonPaymentStatus.Connected`
 
 Selected wallet is connected to the app. Now you are able to request the transaction.
 
-#### TonPaymentStatus.Transaction_prepaired
+`TonPaymentStatus.Transaction_prepaired`
 
 Transanction request is sent through TON HTTP bridge. User should open the wallet and confirm the transaction
 
-#### TonPaymentStatus.Transaction_sent
+`TonPaymentStatus.Transaction_sent`
 
 The transaction is successfully add to the blockchain
 
-#### TonPaymentStatus.Transaction_error_or_rejected
+`TonPaymentStatus.Transaction_error_or_rejected`
 
 User declined the transaction or something went wrong with the connection
 
-#### TonPaymentStatus.Disconnected
+`TonPaymentStatus.Disconnected`
 
 The wallet is disconnected from your app
 
