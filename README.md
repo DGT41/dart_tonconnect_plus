@@ -2,7 +2,7 @@
 
 Improved Dart SDK for TON Connect 2.0
 
-Here is the fork of [DartTonConnect](https://github.com/romanovichim/dartTonconnect) package. Fork version changes:
+Here is the fork of [DartTonConnect](https://github.com/romanovichim/dartTonconnect) package. Forked version advantages:
 1. Stream with TON HTTP network events
 2. Transaction sending interface with payload support
 3. Bug fixes
@@ -20,7 +20,7 @@ This will add a line like this to your package's pubspec.yaml (and run an implic
 Alternatively, your editor might support `dart pub get`. Check the docs for your editor to learn more.
 
 
-##### Configure
+## Configure
 
 Create JSON-manifest file with your app description. This info will be displayed inside the wallet during the connection procedure.
 
@@ -54,137 +54,59 @@ Subscribe to TON events stream messages
     });
 ```
 
-# Handle events
+## Handle events
 
 Next events may be in the stream:
 
-### Wallets_loaded
+#### TonPaymentStatus.Wallets_loaded
 
 `TonConnectManager` loaded supported TON wallets list. Now you are able to offer them to connect.
 
-### UniversalLink_generated
+#### TonPaymentStatus.UniversalLink_generated
 
 User picked up specific wallet. Link for connection is generated.
 
-### TonPaymentStatus.Connected
+#### TonPaymentStatus.Connected
 
-Selected wallet is connected to the app
+Selected wallet is connected to the app. Now you are able to request the transaction.
 
-### TonPaymentStatus.Transaction_prepaired
+#### TonPaymentStatus.Transaction_prepaired
 
 Transanction request is sent through TON HTTP bridge. User should open the wallet and confirm the transaction
 
-### TonPaymentStatus.Transaction_sent
+#### TonPaymentStatus.Transaction_sent
 
-The payment is successfully sent to the blockchain
+The transaction is successfully add to the blockchain
 
-### TonPaymentStatus.Transaction_error_or_rejected
+#### TonPaymentStatus.Transaction_error_or_rejected
 
- User declined the transaction or something went wrong with the connection
+User declined the transaction or something went wrong with the connection
 
-### TonPaymentStatus.Disconnected
+#### TonPaymentStatus.Disconnected
 
-Wallet is disconnected from your app
-
-
-# Send TON coins
+The wallet is disconnected from your app
 
 
+## Transaction
 
-
-### UI Part
-
-If user connected his wallet before, connector will restore the connection.Use the `connector.restoreConnection()` method to be called when the application or page is reloaded, for example:
+Simple interface, with `comment` that will be shown while confirmation inside the wallet
 
 ```
-import 'package:darttonconnect_plus/ton_connect.dart';
-
-@override
-void initState() {
-  // Override default initState method to call restoreConnection
-  // method after screen reloading.
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!connector.connected) {
-      restoreConnection();
-    }
-  });
-}
-
-
-/// Restore connection from memory.
-void restoreConnection() {
-  connector.restoreConnection();
-}
+  void sendTrx(
+      {required String address,
+        required int amount,
+        String? comment,
+        int? validUntill})
 ```
 
-## Fetch wallets list
-
-You can fetch all supported wallets list
+Or create transaction by your own
 
 ```
-import 'package:darttonconnect_plus/ton_connect.dart';
-
-Future<void> main() async {
-  final connector = TonConnect('https://raw.githubusercontent.com/XaBbl4/pytonconnect/main/pytonconnect-manifest.json');
-  final List<WalletApp> wallets = await connector.getWallets();
-  print('Wallets: $wallets');
-}
-```
-
-## Subscribe to the connection status changes
-
-```
-/// Update state/reactive variables to show updates in the ui.
-void statusChanged(dynamic walletInfo) {
-  print('Wallet info: $ walletInfo');
-}
-
-connector.onStatusChange(statusChanged);
-```
-
-## Initialize a wallet connection via universal link
-
-```
-import 'package:darttonconnect_plus/ton_connect.dart';
-
-final generatedUrl = await connector.connect(wallets.first);
-print('Generated url: $generatedUrl');
-}
-```
-
-Then you have to show this link to user as QR-code, or use it as a deep_link. You will receive an update in console when user approves connection in the wallet.
-
-## Send transaction
-
-```
-const transaction = {
-  "validUntil": 1718097354,
-  "messages": [
-    {
-      "address":
-          "0:575af9fc97311a11f423a1926e7fa17a93565babfd65fe39d2e58b8ccb38c911",
-      "amount": "20000000",
-    }
-  ]
-};
-
-try {
-  await connector.sendTransaction(transaction);
-} catch (e) {
-  if (e is UserRejectsError) {
-    logger.d(
-        'You rejected the transaction. Please confirm it to send to the blockchain');
-  } else {
-    logger.d('Unknown error happened $e');
-  }
-}
-```
-
-## Disconnect
-
-```
-connector.disconnect();
+sendTrxRaw({required Map<String, dynamic> transaction})
 ```
 
 
+
+## UI Part
+
+All nessesary Flutter widgets implemented in [Flutter_ton_buttons](https://github.com/romanovichim/dartTonconnect) package
