@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:universal_html/html.dart';
 
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/logger.dart';
-import 'package:darttonconnect/storage/interface.dart';
+import 'package:darttonconnect_plus/exceptions.dart';
+import 'package:darttonconnect_plus/logger.dart';
+import 'package:darttonconnect_plus/storage/interface.dart';
 
 class BridgeGateway {
   static const String ssePath = 'events';

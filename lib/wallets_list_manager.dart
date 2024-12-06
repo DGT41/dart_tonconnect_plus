@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/models/wallet_app.dart';
+import 'package:darttonconnect_plus/exceptions.dart';
+import 'package:darttonconnect_plus/models/wallet_app.dart';
 import 'package:http/http.dart' as http;
 
 import 'logger.dart';

@@ -1,9 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:darttonconnect/storage/interface.dart';
+import 'package:darttonconnect_plus/storage/interface.dart';
 
 class DefaultStorage implements IStorage {
-  final String storagePrefix = 'darttonconnect_';
+  final String storagePrefix = 'darttonconnect_plus_';
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 

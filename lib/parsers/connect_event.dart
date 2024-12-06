@@ -4,8 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'package:hex/hex.dart';
 import 'package:pinenacl/ed25519.dart';
 
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/logger.dart';
+import 'package:darttonconnect_plus/exceptions.dart';
+import 'package:darttonconnect_plus/logger.dart';
 
 enum ConnectEventErrorCodes {
   unknownError,

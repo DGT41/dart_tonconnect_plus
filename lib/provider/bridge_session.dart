@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:darttonconnect/crypto/session_crypto.dart';
+import 'package:darttonconnect_plus/crypto/session_crypto.dart';
 
 class BridgeSession {
   late SessionCrypto sessionCrypto;

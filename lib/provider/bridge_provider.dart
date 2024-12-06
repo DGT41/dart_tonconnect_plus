@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:darttonconnect/crypto/session_crypto.dart';
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/logger.dart';
-import 'package:darttonconnect/models/wallet_app.dart';
-import 'package:darttonconnect/provider/bridge_gateway.dart';
-import 'package:darttonconnect/provider/bridge_session.dart';
-import 'package:darttonconnect/provider/provider.dart';
-import 'package:darttonconnect/storage/interface.dart';
+import 'package:darttonconnect_plus/crypto/session_crypto.dart';
+import 'package:darttonconnect_plus/exceptions.dart';
+import 'package:darttonconnect_plus/logger.dart';
+import 'package:darttonconnect_plus/models/wallet_app.dart';
+import 'package:darttonconnect_plus/provider/bridge_gateway.dart';
+import 'package:darttonconnect_plus/provider/bridge_session.dart';
+import 'package:darttonconnect_plus/provider/provider.dart';
+import 'package:darttonconnect_plus/storage/interface.dart';
 import 'package:flutter/foundation.dart';
 
 class BridgeProvider extends BaseProvider {

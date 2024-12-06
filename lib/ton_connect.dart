@@ -1,15 +1,15 @@
 import 'dart:async';
 
 
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/logger.dart';
-import 'package:darttonconnect/models/wallet_app.dart';
-import 'package:darttonconnect/parsers/connect_event.dart';
-import 'package:darttonconnect/parsers/send_transaction.dart';
-import 'package:darttonconnect/provider/bridge_provider.dart';
-import 'package:darttonconnect/storage/default_storage.dart';
-import 'package:darttonconnect/storage/interface.dart';
-import 'package:darttonconnect/wallets_list_manager.dart';
+import 'package:darttonconnect_plus/exceptions.dart';
+import 'package:darttonconnect_plus/logger.dart';
+import 'package:darttonconnect_plus/models/wallet_app.dart';
+import 'package:darttonconnect_plus/parsers/connect_event.dart';
+import 'package:darttonconnect_plus/parsers/send_transaction.dart';
+import 'package:darttonconnect_plus/provider/bridge_provider.dart';
+import 'package:darttonconnect_plus/storage/default_storage.dart';
+import 'package:darttonconnect_plus/storage/interface.dart';
+import 'package:darttonconnect_plus/wallets_list_manager.dart';
 
 
 

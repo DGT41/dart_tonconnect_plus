@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:darttonconnect/parsers/connect_event.dart';
-import 'package:darttonconnect/storage/interface.dart';
-import 'package:darttonconnect/ton_connect.dart';
+import 'package:darttonconnect_plus/parsers/connect_event.dart';
+import 'package:darttonconnect_plus/storage/interface.dart';
+import 'package:darttonconnect_plus/ton_connect.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:tonutils/dataformat.dart';

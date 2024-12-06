@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:darttonconnect/exceptions.dart';
-import 'package:darttonconnect/parsers/rpc_parser.dart';
+import 'package:darttonconnect_plus/exceptions.dart';
+import 'package:darttonconnect_plus/parsers/rpc_parser.dart';
 
 enum SendTransactionErrorCodes {
   unknownError,
