@@ -2,7 +2,10 @@
 
 Improved Dart SDK for TON Connect 2.0
 
-Here is the for of [DartTonConnect](https://github.com/romanovichim/dartTonconnect) package.
+Here is the fork of [DartTonConnect](https://github.com/romanovichim/dartTonconnect) package. Fork version changes:
+1. Stream with TON HTTP network events
+2. Transaction sending interface with payload support
+3. Bug fixes
 
 
 ## Install
