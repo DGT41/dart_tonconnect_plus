@@ -60,7 +60,7 @@ Next events may be in the stream:
 
 `TonPaymentStatus.Wallets_loaded`
 
-`TonConnectManager` loaded supported TON wallets list. Now you are able to offer them to connect.
+Supported TON wallets list is loaded. Now you are able to offer them to connect.
 
 `TonPaymentStatus.UniversalLink_generated`
 
