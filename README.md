@@ -106,6 +106,10 @@ sendTrxRaw({required Map<String, dynamic> transaction})
 ```
 
 
+## Example
+
+Full example please see [here](https://github.com/aap17/dart_ton_plus/blob/main/lib/example/ton_pay_screen.dart)
+
 
 ## UI Part
 
