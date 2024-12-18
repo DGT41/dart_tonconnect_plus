@@ -1,4 +1,4 @@
-
+/*
 import 'package:darttonconnect_plus/models/wallet_app.dart';
 import 'package:darttonconnect_plus/ton_connect_manager.dart';
 import 'package:flutter/material.dart';
@@ -198,3 +198,4 @@ class _State extends State<TonPayScreen> {
     return _screen();
   }
 }
+*/
