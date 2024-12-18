@@ -21,3 +21,5 @@ dependencies:
   tonutils: ^0.5.7
   pinenacl: ^0.6.0
   flutter_ton_buttons: ^1.0.0
+  url_launcher: ^6.3.1
+
