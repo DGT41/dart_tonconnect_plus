@@ -1,8 +1,8 @@
-/*
+
 import 'package:darttonconnect_plus/models/wallet_app.dart';
 import 'package:darttonconnect_plus/ton_connect_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ton_buttons/views.dart';
+import 'package:flutter_ton_buttons/flutter_ton_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TonPayScreen extends StatefulWidget {
@@ -198,4 +198,3 @@ class _State extends State<TonPayScreen> {
     return _screen();
   }
 }
-*/

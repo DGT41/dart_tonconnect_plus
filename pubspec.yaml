@@ -20,3 +20,4 @@ dependencies:
   shared_preferences: ^2.1.2
   tonutils: ^0.5.7
   pinenacl: ^0.6.0
+  flutter_ton_buttons: ^1.0.0
