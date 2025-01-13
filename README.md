@@ -113,4 +113,4 @@ Full example please see [here](https://github.com/aap17/dart_ton_plus/blob/main/
 
 ## UI Part
 
-All nessesary Flutter widgets implemented in [Flutter_ton_buttons](https://github.com/romanovichim/dartTonconnect) package
+All nessesary Flutter widgets implemented in [Flutter_ton_buttons](https://pub.dev/packages/flutter_ton_buttons/versions) package
