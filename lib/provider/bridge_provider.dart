@@ -9,7 +9,6 @@ import 'package:darttonconnect_plus/provider/bridge_gateway.dart';
 import 'package:darttonconnect_plus/provider/bridge_session.dart';
 import 'package:darttonconnect_plus/provider/provider.dart';
 import 'package:darttonconnect_plus/storage/interface.dart';
-import 'package:flutter/foundation.dart';
 
 class BridgeProvider extends BaseProvider {
   static const int disconnectTimeout = 600;
@@ -108,7 +107,7 @@ class BridgeProvider extends BaseProvider {
         Future.delayed(const Duration(seconds: disconnectTimeout)),
       ]);
     } catch (e) {
-      logger.e('Provider disconnect', e);
+      logger.e('Provider disconnect', error: e);
     } finally {
       if (!completer.isCompleted) {
         await _removeSession();
